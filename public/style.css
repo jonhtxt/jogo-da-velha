@@ -116,6 +116,39 @@ body {
     text-shadow: 0 0 20px #ff4e50;
   }
 }
+.subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+#start-screen input {
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #ffffff10;
+  color: #fff;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#start-screen input:focus {
+  background-color: #ffffff20;
+  transform: scale(1.02);
+  outline: none;
+}
 
 
 
