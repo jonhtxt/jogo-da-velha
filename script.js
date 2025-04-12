@@ -126,6 +126,18 @@ function reiniciarJogo(semResetPlacar = false) {
 cells.forEach(cell => {
   cell.addEventListener("click", clicarNaCelula);
 });
+const socket = io();  // Conecta ao servidor usando o Socket.IO
+
+// Exemplo de emitir um evento quando o jogador faz uma jogada
+function fazerJogada(jogada) {
+  socket.emit('move', jogada);  // Envia a jogada para o servidor
+}
+
+// Ouvir as jogadas dos outros jogadores
+socket.on('move', (data) => {
+  // Lógica para atualizar o jogo com a jogada recebida
+  console.log(data);
+});
 
 
 
