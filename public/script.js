@@ -128,6 +128,32 @@ socket.on("reset", reiniciarJogo);
 cells.forEach(cell => {
     cell.addEventListener("click", clicarNaCelula);
 });
+async function carregarHistorico() {
+  const res = await fetch("/players");
+  const nomes = await res.json();
+  const lista = document.getElementById("lista-jogadores");
+  lista.innerHTML = nomes.map(n => `<li>${n}</li>`).join("");
+}
+
+window.addEventListener("load", carregarHistorico);
+
+async function salvarJogador(nome) {
+  await fetch("/add-player", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: nome })
+  });
+}
+
+function startGame() {
+  nomeX = document.getElementById("nomeX").value || "Jogador X";
+  nomeO = document.getElementById("nomeO").value || "Jogador O";
+  salvarJogador(nomeX);
+  salvarJogador(nomeO);
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("game-container").style.display = "block";
+  atualizarStatus();
+}
 
 
 

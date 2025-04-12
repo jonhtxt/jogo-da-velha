@@ -26,4 +26,40 @@ io.on("connection", (socket) => {
 http.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+const fs = require("fs");
+const path = require("path");
+
+const playersFile = path.join(__dirname, "players.json");
+
+// Rota para salvar novo jogador
+app.post("/add-player", express.json(), (req, res) => {
+  const { name } = req.body;
+  if (!name) return res.status(400).send("Nome inválido");
+
+  fs.readFile(playersFile, "utf8", (err, data) => {
+    let players = [];
+    if (!err && data) {
+      try {
+        players = JSON.parse(data);
+      } catch {}
+    }
+    if (!players.includes(name)) {
+      players.push(name);
+      fs.writeFile(playersFile, JSON.stringify(players), () => {});
+    }
+    res.status(200).send("OK");
+  });
+});
+
+// Rota para pegar todos os jogadores
+app.get("/players", (req, res) => {
+  fs.readFile(playersFile, "utf8", (err, data) => {
+    if (err || !data) return res.json([]);
+    try {
+      res.json(JSON.parse(data));
+    } catch {
+      res.json([]);
+    }
+  });
+});
 
