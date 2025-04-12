@@ -12,6 +12,14 @@ h1 {
   margin-top: 20px;
 }
 
+input {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
@@ -62,14 +70,13 @@ button:hover {
   color: #444;
 }
 
-/* Estilo da tela inicial */
 #start-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  gap: 20px;
+  gap: 10px;
   background: linear-gradient(135deg, #7b2ff7, #f72585);
   color: white;
 }
@@ -78,19 +85,9 @@ button:hover {
   font-size: 3rem;
 }
 
-#start-screen button {
-  background-color: white;
-  color: #2a2a72;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 25px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-#start-screen button:hover {
-  transform: scale(1.1);
+#placar {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 }
 
 

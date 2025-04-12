@@ -3,7 +3,10 @@ const statusText = document.getElementById("status");
 let jogadorAtual = "X";
 let jogoAtivo = true;
 let contraBot = true;
+let placar = { X: 0, O: 0 };
 let tabuleiro = ["", "", "", "", "", "", "", "", ""];
+let nomeX = "Jogador X";
+let nomeO = "Bot";
 const clickSound = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
 
 const combinacoesVitoria = [
@@ -13,16 +16,25 @@ const combinacoesVitoria = [
 ];
 
 function startGame() {
+  nomeX = document.getElementById("nomeX").value || "Jogador X";
+  nomeO = document.getElementById("nomeO").value || "Bot";
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("game-container").style.display = "block";
+  atualizarStatus();
 }
 
 function mostrarInstrucoes() {
-  alert("Alinhe três símbolos para vencer. Contra o bot, você joga com X.");
+  alert("Alinhe três símbolos (❌ ou ⭕) para vencer. Contra o bot, você começa jogando.");
 }
 
 function mostrarSobre() {
   alert("Criado por Jonata com HTML, CSS e JavaScript.");
+}
+
+function voltarAoMenu() {
+  document.getElementById("game-container").style.display = "none";
+  document.getElementById("start-screen").style.display = "flex";
+  reiniciarJogo(true);
 }
 
 function clicarNaCelula(e) {
@@ -30,11 +42,13 @@ function clicarNaCelula(e) {
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
 
   tabuleiro[index] = jogadorAtual;
-  e.target.textContent = jogadorAtual;
+  e.target.textContent = jogadorAtual === "X" ? "❌" : "⭕";
   clickSound.play();
 
   if (verificarVitoria()) {
-    statusText.textContent = `Jogador ${jogadorAtual} venceu!`;
+    statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
+    placar[jogadorAtual]++;
+    atualizarPlacar();
     jogoAtivo = false;
     return;
   }
@@ -46,7 +60,7 @@ function clicarNaCelula(e) {
   }
 
   jogadorAtual = jogadorAtual === "X" ? "O" : "X";
-  statusText.textContent = `Vez do jogador ${jogadorAtual}`;
+  atualizarStatus();
 
   if (contraBot && jogadorAtual === "O") {
     setTimeout(botJogar, 500);
@@ -56,43 +70,59 @@ function clicarNaCelula(e) {
 function botJogar() {
   if (!jogoAtivo) return;
 
-  let indicesDisponiveis = tabuleiro
-    .map((val, i) => val === "" ? i : null)
-    .filter(i => i !== null);
-
-  let index = indicesDisponiveis[Math.floor(Math.random() * indicesDisponiveis.length)];
+  const indicesDisponiveis = tabuleiro.map((val, i) => val === "" ? i : null).filter(i => i !== null);
+  const index = indicesDisponiveis[Math.floor(Math.random() * indicesDisponiveis.length)];
 
   tabuleiro[index] = "O";
-  cells[index].textContent = "O";
+  cells[index].textContent = "⭕";
   clickSound.play();
 
   if (verificarVitoria()) {
-    statusText.textContent = `Jogador O venceu!`;
+    statusText.textContent = `${nomeO} venceu!`;
+    placar.O++;
+    atualizarPlacar();
     jogoAtivo = false;
-  } else if (!tabuleiro.includes("")) {
+    return;
+  }
+
+  if (!tabuleiro.includes("")) {
     statusText.textContent = "Empate!";
     jogoAtivo = false;
-  } else {
-    jogadorAtual = "X";
-    statusText.textContent = `Vez do jogador ${jogadorAtual}`;
+    return;
   }
+
+  jogadorAtual = "X";
+  atualizarStatus();
 }
 
 function verificarVitoria() {
-  return combinacoesVitoria.some(combinacao =>
-    combinacao.every(i => tabuleiro[i] === jogadorAtual)
+  return combinacoesVitoria.some(comb =>
+    comb.every(i => tabuleiro[i] === jogadorAtual)
   );
 }
 
-function reiniciarJogo() {
+function atualizarStatus() {
+  statusText.textContent = `Vez de ${jogadorAtual === "X" ? nomeX : nomeO}`;
+}
+
+function atualizarPlacar() {
+  document.getElementById("placarX").textContent = `❌ ${placar.X}`;
+  document.getElementById("placarO").textContent = `⭕ ${placar.O}`;
+}
+
+function reiniciarJogo(semResetPlacar = false) {
   tabuleiro = ["", "", "", "", "", "", "", "", ""];
   jogadorAtual = "X";
   jogoAtivo = true;
   statusText.textContent = "";
   cells.forEach(cell => (cell.textContent = ""));
+  if (!semResetPlacar) {
+    placar = { X: 0, O: 0 };
+    atualizarPlacar();
+  }
+  atualizarStatus();
 }
 
-// Adiciona os eventos
 cells.forEach(cell => {
   cell.addEventListener("click", clicarNaCelula);
 });

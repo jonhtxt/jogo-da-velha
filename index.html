@@ -9,15 +9,23 @@
 </head>
 <body>
 
+  <!-- Tela inicial -->
   <div id="start-screen">
     <h1>Jogo da Velha</h1>
+    <input type="text" id="nomeX" placeholder="Nome do Jogador X (Você)" />
+    <input type="text" id="nomeO" placeholder="Nome do Jogador O (Bot)" />
     <button onclick="startGame()">Jogar contra Bot</button>
     <button onclick="mostrarInstrucoes()">Instruções</button>
     <button onclick="mostrarSobre()">Sobre</button>
   </div>
 
+  <!-- Tela do jogo -->
   <div id="game-container" style="display: none;">
     <h1>Jogo da Velha</h1>
+    <div id="placar">
+      <span id="placarX">❌ 0</span> |
+      <span id="placarO">⭕ 0</span>
+    </div>
     <div class="board">
       <div class="cell" data-index="0"></div>
       <div class="cell" data-index="1"></div>
@@ -31,10 +39,12 @@
     </div>
     <p id="status"></p>
     <button onclick="reiniciarJogo()">Reiniciar</button>
+    <button onclick="voltarAoMenu()">Voltar ao menu</button>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
