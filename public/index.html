@@ -1,18 +1,17 @@
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jogo da Velha Online</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <!-- Tela de Início -->
   <div id="start-screen">
     <h1 class="title">🎮 Jogo da Velha Online</h1>
-    <input id="nomeX" placeholder="Nome do Jogador 1 (❌)" aria-label="Nome do Jogador 1 (❌)">
-    <input id="nomeO" placeholder="Nome do Jogador 2 (⭕)" aria-label="Nome do Jogador 2 (⭕)">
+    <input id="nomeX" placeholder="Nome do Jogador 1 (❌)" />
+    <input id="nomeO" placeholder="Nome do Jogador 2 (⭕)" />
     <div class="buttons">
       <button onclick="startGame()">Iniciar Jogo</button>
       <button onclick="mostrarInstrucoes()">📘 Instruções</button>
@@ -20,6 +19,7 @@
     </div>
   </div>
 
+  <!-- Tela do Jogo -->
   <div id="game-container" style="display:none;">
     <div class="placar">
       <span id="placarX">❌ 0</span>
@@ -44,12 +44,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
-
 </html>
-<div id="historico">
-  <h3>Jogadores anteriores:</h3>
-  <ul id="lista-jogadores"></ul>
-</div>
 
 
 

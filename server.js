@@ -67,19 +67,14 @@ app.use(express.json());
 
 app.post("/verificar-nomes", (req, res) => {
   const { nomeX, nomeO } = req.body;
-  const playersPath = path.join(__dirname, "players.json");
-  let players = [];
 
-  if (fs.existsSync(playersPath)) {
-    players = JSON.parse(fs.readFileSync(playersPath, "utf8"));
+  // Verifica se algum dos nomes já foi usado
+  if (usuariosJogadores.includes(nomeX) || usuariosJogadores.includes(nomeO)) {
+    return res.json({ ok: false, mensagem: "Um dos nomes já foi utilizado. Tente outro nome." });
   }
 
-  if (players.includes(nomeX) || players.includes(nomeO)) {
-    return res.json({ ok: false, mensagem: "Um dos nomes já foi usado. Escolha nomes diferentes." });
-  }
-
-  players.push(nomeX, nomeO);
-  fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
-  res.json({ ok: true });
+  // Se os nomes não foram usados, a resposta será positiva
+  return res.json({ ok: true });
 });
+
 

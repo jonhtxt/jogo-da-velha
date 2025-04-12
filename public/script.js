@@ -18,20 +18,23 @@ const clickSound = new Audio("https://www.soundjay.com/button/sounds/button-16.m
 
 // Função que inicia o jogo
 async function startGame() {
+  // Obtenha os valores dos nomes dos jogadores
   nomeX = document.getElementById("nomeX").value.trim();
   nomeO = document.getElementById("nomeO").value.trim();
 
+  // Verifique se os nomes são preenchidos
   if (!nomeX || !nomeO) {
     alert("Ambos os jogadores precisam inserir seus nomes.");
     return;
   }
 
+  // Verifique se os nomes são diferentes
   if (nomeX === nomeO) {
     alert("Os nomes dos jogadores devem ser diferentes.");
     return;
   }
 
-  // Verificação no servidor para garantir que os nomes não foram usados
+  // Verifique se os nomes são únicos
   const resposta = await fetch("/verificar-nomes", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -40,15 +43,18 @@ async function startGame() {
 
   const resultado = await resposta.json();
 
+  // Se a resposta for negativa, mostre a mensagem
   if (!resultado.ok) {
     alert(resultado.mensagem);
     return;
   }
 
-  // Oculta a tela de entrada e exibe o jogo
+  // Se tudo estiver certo, inicie o jogo
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("game-container").style.display = "block";
   atualizarStatus();
+  salvarJogador(nomeX); // Salve o jogador X
+  salvarJogador(nomeO); // Salve o jogador O
 }
 
 // Função que lida com os cliques nas células
