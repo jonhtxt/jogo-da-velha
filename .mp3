@@ -1,0 +1,7 @@
+const clickSound = new Audio('click-sound.mp3');  // Substitua pelo caminho do seu arquivo de som
+
+document.querySelectorAll('.cell').forEach(cell => {
+  cell.addEventListener('click', () => {
+    clickSound.play();
+  });
+});
