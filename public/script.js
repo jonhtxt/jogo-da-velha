@@ -145,15 +145,38 @@ async function salvarJogador(nome) {
   });
 }
 
-function startGame() {
-  nomeX = document.getElementById("nomeX").value || "Jogador X";
-  nomeO = document.getElementById("nomeO").value || "Jogador O";
-  salvarJogador(nomeX);
-  salvarJogador(nomeO);
+async function startGame() {
+  nomeX = document.getElementById("nomeX").value.trim();
+  nomeO = document.getElementById("nomeO").value.trim();
+
+  if (!nomeX || !nomeO) {
+    alert("Ambos os jogadores precisam inserir seus nomes.");
+    return;
+  }
+
+  if (nomeX === nomeO) {
+    alert("Os nomes dos jogadores devem ser diferentes.");
+    return;
+  }
+
+  const resposta = await fetch("/verificar-nomes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nomeX, nomeO })
+  });
+
+  const resultado = await resposta.json();
+
+  if (!resultado.ok) {
+    alert(resultado.mensagem);
+    return;
+  }
+
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("game-container").style.display = "block";
   atualizarStatus();
 }
+
 
 
 

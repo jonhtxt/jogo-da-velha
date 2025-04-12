@@ -62,4 +62,26 @@ app.get("/players", (req, res) => {
     }
   });
 });
+const fs = require("fs");
+const path = require("path");
+
+app.use(express.json());
+
+app.post("/verificar-nomes", (req, res) => {
+  const { nomeX, nomeO } = req.body;
+  const playersPath = path.join(__dirname, "players.json");
+  let players = [];
+
+  if (fs.existsSync(playersPath)) {
+    players = JSON.parse(fs.readFileSync(playersPath, "utf8"));
+  }
+
+  if (players.includes(nomeX) || players.includes(nomeO)) {
+    return res.json({ ok: false, mensagem: "Um dos nomes já foi usado. Escolha nomes diferentes." });
+  }
+
+  players.push(nomeX, nomeO);
+  fs.writeFileSync(playersPath, JSON.stringify(players, null, 2));
+  res.json({ ok: true });
+});
 
