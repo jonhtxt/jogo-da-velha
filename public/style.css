@@ -1,93 +1,45 @@
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: sans-serif;
+  background: linear-gradient(to right, #2b5876, #4e4376);
+  color: white;
   text-align: center;
   margin: 0;
-  background: linear-gradient(to right, #e0c3fc, #8ec5fc);
-  color: #333;
+  padding: 0;
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: #2a2a72;
-  margin-top: 20px;
+#start-screen, #game-container {
+  padding: 20px;
 }
 
-input {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-.board {
+.grid {
   display: grid;
   grid-template-columns: repeat(3, 100px);
-  gap: 10px;
+  grid-gap: 5px;
   justify-content: center;
-  margin: 30px auto;
+  margin: 20px auto;
 }
 
 .cell {
   width: 100px;
   height: 100px;
-  background-color: #fff;
-  border: 2px solid #2a2a72;
+  background: white;
+  color: black;
   font-size: 2.5rem;
-  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s;
+  border-radius: 8px;
+  transition: background 0.3s;
 }
 
 .cell:hover {
-  background-color: #e0e7ff;
-  transform: scale(1.05);
+  background: #ddd;
 }
 
-button {
-  background-color: #2a2a72;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  margin: 10px;
-}
-
-button:hover {
-  background-color: #4244a8;
-  transform: scale(1.05);
-}
-
-#status {
+.placar {
+  margin: 10px 0;
   font-size: 1.2rem;
-  margin: 20px 0;
-  color: #444;
-}
-
-#start-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  gap: 10px;
-  background: linear-gradient(135deg, #7b2ff7, #f72585);
-  color: white;
-}
-
-#start-screen h1 {
-  font-size: 3rem;
-}
-
-#placar {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
 }
 
 

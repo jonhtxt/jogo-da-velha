@@ -2,31 +2,25 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jogo da Velha</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jogo da Velha Online</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Tela inicial -->
   <div id="start-screen">
     <h1>Jogo da Velha</h1>
-    <input type="text" id="nomeX" placeholder="Nome do Jogador X (Você)" />
-    <input type="text" id="nomeO" placeholder="Nome do Jogador O (Bot)" />
-    <button onclick="startGame()">Jogar contra Bot</button>
-    <button onclick="mostrarInstrucoes()">Instruções</button>
-    <button onclick="mostrarSobre()">Sobre</button>
+    <input type="text" id="nomeX" placeholder="Nome do Jogador X" />
+    <input type="text" id="nomeO" placeholder="Nome do Jogador O" />
+    <button onclick="startGame()">Começar</button>
   </div>
 
-  <!-- Tela do jogo -->
   <div id="game-container" style="display: none;">
-    <h1>Jogo da Velha</h1>
-    <div id="placar">
-      <span id="placarX">❌ 0</span> |
+    <div class="placar">
+      <span id="placarX">❌ 0</span>
       <span id="placarO">⭕ 0</span>
     </div>
-    <div class="board">
+    <div id="status"></div>
+    <div class="grid">
       <div class="cell" data-index="0"></div>
       <div class="cell" data-index="1"></div>
       <div class="cell" data-index="2"></div>
@@ -37,15 +31,15 @@
       <div class="cell" data-index="7"></div>
       <div class="cell" data-index="8"></div>
     </div>
-    <p id="status"></p>
     <button onclick="reiniciarJogo()">Reiniciar</button>
-    <button onclick="voltarAoMenu()">Voltar ao menu</button>
+    <button onclick="voltarAoMenu()">Voltar</button>
   </div>
 
+  <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
-</html><script src="/socket.io/socket.io.js"></script>
-const socket = io("https://jonata-un98.onrender.com"); // ✅ correto
+</html>
+
 
 
 

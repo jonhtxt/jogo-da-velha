@@ -1,7 +1,10 @@
+const socket = io();
+
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
-let jogadorAtual = "X";  // Jogador X começa
+let jogadorAtual = "X";
 let jogoAtivo = true;
+let placar = { X: 0, O: 0 };
 let tabuleiro = ["", "", "", "", "", "", "", "", ""];
 let nomeX = "Jogador X";
 let nomeO = "Jogador O";
@@ -13,32 +16,12 @@ const combinacoesVitoria = [
   [0,4,8], [2,4,6]
 ];
 
-// Conectar ao servidor via Socket.io
-const socket = io(); 
-
 function startGame() {
   nomeX = document.getElementById("nomeX").value || "Jogador X";
   nomeO = document.getElementById("nomeO").value || "Jogador O";
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("game-container").style.display = "block";
   atualizarStatus();
-  
-  // Iniciar a partida enviando o nome dos jogadores para o servidor
-  socket.emit('iniciar_partida', { nomeX, nomeO });
-}
-
-function mostrarInstrucoes() {
-  alert("Alinhe três símbolos (❌ ou ⭕) para vencer.");
-}
-
-function mostrarSobre() {
-  alert("Criado por Jonata com HTML, CSS e JavaScript.");
-}
-
-function voltarAoMenu() {
-  document.getElementById("game-container").style.display = "none";
-  document.getElementById("start-screen").style.display = "flex";
-  reiniciarJogo(true);
 }
 
 function clicarNaCelula(e) {
@@ -49,23 +32,43 @@ function clicarNaCelula(e) {
   e.target.textContent = jogadorAtual === "X" ? "❌" : "⭕";
   clickSound.play();
 
-  // Envia o movimento para o servidor
-  socket.emit('movimento', { index, jogador: jogadorAtual });
+  socket.emit("move", { index, jogador: jogadorAtual });
 
   if (verificarVitoria()) {
     statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
+    placar[jogadorAtual]++;
+    atualizarPlacar();
     jogoAtivo = false;
-    return;
-  }
-
-  if (!tabuleiro.includes("")) {
+  } else if (!tabuleiro.includes("")) {
     statusText.textContent = "Empate!";
     jogoAtivo = false;
-    return;
+  } else {
+    jogadorAtual = jogadorAtual === "X" ? "O" : "X";
+    atualizarStatus();
   }
+}
 
-  jogadorAtual = jogadorAtual === "X" ? "O" : "X";
-  atualizarStatus();
+socket.on("move", ({ index, jogador }) => {
+  tabuleiro[index] = jogador;
+  cells[index].textContent = jogador === "X" ? "❌" : "⭕";
+  clickSound.play();
+
+  if (verificarVitoria()) {
+    statusText.textContent = `${jogador === "X" ? nomeX : nomeO} venceu!`;
+    placar[jogador]++;
+    atualizarPlacar();
+    jogoAtivo = false;
+  } else if (!tabuleiro.includes("")) {
+    statusText.textContent = "Empate!";
+    jogoAtivo = false;
+  } else {
+    jogadorAtual = jogador === "X" ? "O" : "X";
+    atualizarStatus();
+  }
+});
+
+function atualizarStatus() {
+  statusText.textContent = `Vez de ${jogadorAtual === "X" ? nomeX : nomeO}`;
 }
 
 function verificarVitoria() {
@@ -74,55 +77,32 @@ function verificarVitoria() {
   );
 }
 
-function atualizarStatus() {
-  statusText.textContent = `Vez de ${jogadorAtual === "X" ? nomeX : nomeO}`;
-}
-
 function atualizarPlacar() {
   document.getElementById("placarX").textContent = `❌ ${placar.X}`;
   document.getElementById("placarO").textContent = `⭕ ${placar.O}`;
 }
 
-function reiniciarJogo(semResetPlacar = false) {
+function reiniciarJogo() {
   tabuleiro = ["", "", "", "", "", "", "", "", ""];
   jogadorAtual = "X";
   jogoAtivo = true;
-  statusText.textContent = "";
   cells.forEach(cell => (cell.textContent = ""));
   atualizarStatus();
+  socket.emit("reset");
 }
 
-// Ouvir as jogadas enviadas pelos outros jogadores
-socket.on('movimento', (data) => {
-  const { index, jogador } = data;
-  tabuleiro[index] = jogador;
-  cells[index].textContent = jogador === "X" ? "❌" : "⭕";
-  jogadorAtual = jogador === "X" ? "O" : "X"; // Alterna entre os jogadores
-  atualizarStatus();
+socket.on("reset", reiniciarJogo);
 
-  if (verificarVitoria()) {
-    statusText.textContent = `${jogador === "X" ? nomeX : nomeO} venceu!`;
-    jogoAtivo = false;
-    return;
-  }
-
-  if (!tabuleiro.includes("")) {
-    statusText.textContent = "Empate!";
-    jogoAtivo = false;
-    return;
-  }
-});
+function voltarAoMenu() {
+  document.getElementById("game-container").style.display = "none";
+  document.getElementById("start-screen").style.display = "flex";
+  reiniciarJogo();
+}
 
 cells.forEach(cell => {
   cell.addEventListener("click", clicarNaCelula);
 });
-socket.on('connect', () => {
-  console.log('Conectado ao servidor!');
-});
 
-socket.on('disconnect', () => {
-  console.log('Desconectado do servidor!');
-});
 
 
 
