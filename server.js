@@ -62,7 +62,6 @@ app.get("/players", (req, res) => {
     }
   });
 });
-const path = require("path");
 
 app.use(express.json());
 
