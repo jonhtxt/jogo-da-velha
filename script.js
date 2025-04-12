@@ -1,3 +1,6 @@
+// Som de clique
+const clickSound = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
+
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
 let jogadorAtual = "X";
@@ -5,9 +8,9 @@ let jogoAtivo = true;
 let tabuleiro = ["", "", "", "", "", "", "", "", ""];
 
 const combinacoesVitoria = [
-  [0,1,2], [3,4,5], [6,7,8], // Linhas
-  [0,3,6], [1,4,7], [2,5,8], // Colunas
-  [0,4,8], [2,4,6]           // Diagonais
+  [0,1,2], [3,4,5], [6,7,8],
+  [0,3,6], [1,4,7], [2,5,8],
+  [0,4,8], [2,4,6]
 ];
 
 cells.forEach(cell => {
@@ -15,6 +18,8 @@ cells.forEach(cell => {
 });
 
 function clicarNaCelula(e) {
+  clickSound.play(); // ✅ toca som no clique
+
   const index = e.target.dataset.index;
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
 
@@ -46,16 +51,9 @@ function reiniciarJogo() {
   statusText.textContent = "";
   cells.forEach(cell => (cell.textContent = ""));
 }
-// Cria um objeto de áudio com o arquivo de som
-const clickSound = new Audio('assets/click-sound.mp3');  // Altere para o caminho correto do seu arquivo
 
-// Adiciona um evento de clique em cada célula
-document.querySelectorAll('.cell').forEach(cell => {
-  cell.addEventListener('click', () => {
-    clickSound.play();  // Toca o som toda vez que a célula for clicada
-  });
-});
+// Botão de tema escuro
 const themeToggleButton = document.getElementById('theme-toggle');
 themeToggleButton.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');  // Alterna entre modo claro e escuro
+  document.body.classList.toggle('dark-mode');
 });
