@@ -1,31 +1,27 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const path = require("path");
 
-// Criação do servidor Express
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);  // Inicializa o Socket.IO
+const io = new Server(server);
 
-// Middleware para servir os arquivos estáticos (Frontend)
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Conexão dos clientes via Socket.IO
-io.on('connection', (socket) => {
-  console.log('Novo cliente conectado');
+io.on("connection", (socket) => {
+  console.log("Novo jogador conectado");
 
-  // Enviar e receber eventos, ex: um evento para o jogo da velha
-  socket.on('move', (data) => {
-    socket.broadcast.emit('move', data);  // Envia para todos os outros jogadores
+  socket.on("jogada", (data) => {
+    socket.broadcast.emit("jogada", data);
   });
 
-  // Desconexão
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
+  socket.on("resetar", () => {
+    io.emit("resetar");
   });
 });
 
-// Configuração para rodar o servidor na porta desejada
-server.listen(process.env.PORT || 3000, () => {
-  console.log('Servidor rodando');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
