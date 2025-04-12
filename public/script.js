@@ -25,28 +25,45 @@ function startGame() {
 }
 
 function clicarNaCelula(e) {
-    let index = e.target.dataset.index;
-    if (tabuleiro[index] === "" && jogoAtivo) {
-        tabuleiro[index] = jogadorAtual;
-        e.target.textContent = (jogadorAtual === "X") ? "❌" : "⭕";
-        clickSound.play();
+  const index = e.target.dataset.index;
+  if (tabuleiro[index] !== "" || !jogoAtivo) return;
 
-        socket.emit("move", { index: index, jogador: jogadorAtual });
+  tabuleiro[index] = jogadorAtual;
+  e.target.textContent = jogadorAtual === "X" ? "❌" : "⭕";
+  e.target.classList.add("played");
+  clickSound.play();
 
-        if (verificarVitoria()) {
-            statusText.textContent = `${(jogadorAtual === "X") ? nomeX : nomeO} venceu!`;
-            placar[jogadorAtual]++;
-            atualizarPlacar();
-            jogoAtivo = false;
-        } else if (tabuleiro.includes("")) {
-            jogadorAtual = (jogadorAtual === "X") ? "O" : "X";
-            atualizarStatus();
-        } else {
-            statusText.textContent = "Empate!";
-            jogoAtivo = false;
-        }
-    }
+  socket.emit("move", { index, jogador: jogadorAtual });
+
+  if (verificarVitoria()) {
+    statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
+    placar[jogadorAtual]++;
+    atualizarPlacar();
+    jogoAtivo = false;
+
+    destacarVitoria();
+  } else if (!tabuleiro.includes("")) {
+    statusText.textContent = "Empate!";
+    jogoAtivo = false;
+    empateSound.play?.(); // Adicione se quiser som de empate
+  } else {
+    jogadorAtual = jogadorAtual === "X" ? "O" : "X";
+    atualizarStatus();
+  }
 }
+
+function destacarVitoria() {
+  const combinacao = combinacoesVitoria.find(comb =>
+    comb.every(i => tabuleiro[i] === jogadorAtual)
+  );
+  if (combinacao) {
+    combinacao.forEach(i => {
+      cells[i].classList.add("vitoria");
+    });
+    vitoriaSound.play?.(); // Se quiser som de vitória
+  }
+}
+
 
 function atualizarStatus() {
     statusText.textContent = `Vez de ${(jogadorAtual === "X") ? nomeX : nomeO}`;
@@ -77,23 +94,34 @@ function voltarAoMenu() {
 }
 
 socket.on("move", ({ index, jogador }) => {
-    tabuleiro[index] = jogador;
-    cells[index].textContent = (jogador === "X") ? "❌" : "⭕";
-    clickSound.play();
+  tabuleiro[index] = jogador;
+  const cell = cells[index];
+  cell.textContent = jogador === "X" ? "❌" : "⭕";
+  cell.classList.add("marcado");
+  clickSound.play();
 
-    if (verificarVitoria()) {
-        statusText.textContent = `${(jogador === "X") ? nomeX : nomeO} venceu!`;
-        placar[jogador]++;
-        atualizarPlacar();
-        jogoAtivo = false;
-    } else if (tabuleiro.includes("")) {
-        jogadorAtual = (jogador === "X") ? "O" : "X";
-        atualizarStatus();
-    } else {
-        statusText.textContent = "Empate!";
-        jogoAtivo = false;
+  if (verificarVitoria()) {
+    statusText.textContent = `${jogador === "X" ? nomeX : nomeO} venceu!`;
+    placar[jogador]++;
+    atualizarPlacar();
+    jogoAtivo = false;
+    vitoriaSound.play();
+
+    // Destacar células vencedoras
+    const combinacao = combinacoesVitoria.find(comb => comb.every(i => tabuleiro[i] === jogador));
+    if (combinacao) {
+      combinacao.forEach(i => cells[i].classList.add("vitoria"));
     }
+  } else if (!tabuleiro.includes("")) {
+    statusText.textContent = "Empate!";
+    empateSound.play();
+    jogoAtivo = false;
+  } else {
+    jogadorAtual = jogador === "X" ? "O" : "X";
+    atualizarStatus();
+  }
 });
+
 
 socket.on("reset", reiniciarJogo);
 

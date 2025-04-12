@@ -149,6 +149,33 @@ body {
   transform: scale(1.02);
   outline: none;
 }
+.cell {
+  transition: background 0.3s, transform 0.2s;
+}
+.cell.played {
+  animation: mark 0.3s ease-in-out;
+}
+@keyframes mark {
+  0% { transform: scale(1.5); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+#status {
+  font-size: 1.5rem;
+  margin: 10px;
+  animation: fadeIn 0.5s ease;
+}
+
+.vitoria {
+  background-color: #90ee90 !important;
+}
+
+button {
+  transition: transform 0.2s ease;
+}
+button:hover {
+  transform: scale(1.05);
+}
 
 
 
