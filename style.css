@@ -2,11 +2,11 @@
 body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #7b2ff7, #f72585); /* Gradiente de cores */
   color: #333;
   margin-top: 50px;
-  transition: background-color 0.3s, color 0.3s;
 }
+
 
 h1 {
   font-size: 2.5rem;
