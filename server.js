@@ -1,49 +1,37 @@
 const express = require('express');
-const path = require('path');
+const http = require('http');
+const socketIo = require('socket.io');
+
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const server = http.createServer(app);
+const io = socketIo(server);
 
-const PORT = process.env.PORT || 3000;
+let jogadores = {};  // Armazena os nomes dos jogadores
 
-
-// Servir arquivos estáticos da pasta public
-app.use(express.static(path.join(__dirname, 'public')));
-
-let players = {};
-let board = Array(9).fill("");
+// Serve os arquivos estáticos do frontend
+app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-  console.log('Novo jogador conectado:', socket.id);
+  console.log('Novo jogador conectado: ' + socket.id);
 
-  // Atribui X ou O
-  if (!players.X) {
-    players.X = socket.id;
-    socket.emit('playerType', 'X');
-  } else if (!players.O) {
-    players.O = socket.id;
-    socket.emit('playerType', 'O');
-  } else {
-    socket.emit('playerType', 'spectator');
-  }
-
-  socket.on('play', (data) => {
-    board[data.index] = data.player;
-    io.emit('updateBoard', { index: data.index, player: data.player });
+  socket.on('iniciar_partida', (data) => {
+    jogadores[socket.id] = data;
+    if (Object.keys(jogadores).length === 2) {
+      io.emit('vez_do_jogador', { jogador: 'X' });  // Envia a vez para o primeiro jogador
+    }
   });
 
-  socket.on('reset', () => {
-    board = Array(9).fill("");
-    io.emit('resetBoard');
+  socket.on('movimento', (data) => {
+    io.emit('movimento', data); // Envia o movimento para todos os jogadores
+    io.emit('vez_do_jogador', { jogador: data.jogador === 'X' ? 'O' : 'X' }); // Alterna a vez
   });
 
   socket.on('disconnect', () => {
-    console.log('Jogador saiu:', socket.id);
-    if (players.X === socket.id) delete players.X;
-    if (players.O === socket.id) delete players.O;
+    console.log('Jogador desconectado: ' + socket.id);
+    delete jogadores[socket.id];
   });
 });
 
-http.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+server.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
 });
