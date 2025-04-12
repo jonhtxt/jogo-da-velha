@@ -116,6 +116,13 @@ socket.on('movimento', (data) => {
 cells.forEach(cell => {
   cell.addEventListener("click", clicarNaCelula);
 });
+socket.on('connect', () => {
+  console.log('Conectado ao servidor!');
+});
+
+socket.on('disconnect', () => {
+  console.log('Desconectado do servidor!');
+});
 
 
 
