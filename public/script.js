@@ -16,14 +16,42 @@ const clickSound = new Audio("https://www.soundjay.com/button/sounds/button-16.m
         [0, 4, 8], [2, 4, 6]
       ];
 
-function startGame() {
-    nomeX = document.getElementById("nomeX").value || "Jogador X";
-    nomeO = document.getElementById("nomeO").value || "Jogador O";
-    document.getElementById("start-screen").style.display = "none";
-    document.getElementById("game-container").style.display = "block";
-    atualizarStatus();
+// Função que inicia o jogo
+async function startGame() {
+  nomeX = document.getElementById("nomeX").value.trim();
+  nomeO = document.getElementById("nomeO").value.trim();
+
+  if (!nomeX || !nomeO) {
+    alert("Ambos os jogadores precisam inserir seus nomes.");
+    return;
+  }
+
+  if (nomeX === nomeO) {
+    alert("Os nomes dos jogadores devem ser diferentes.");
+    return;
+  }
+
+  // Verificação no servidor para garantir que os nomes não foram usados
+  const resposta = await fetch("/verificar-nomes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nomeX, nomeO })
+  });
+
+  const resultado = await resposta.json();
+
+  if (!resultado.ok) {
+    alert(resultado.mensagem);
+    return;
+  }
+
+  // Oculta a tela de entrada e exibe o jogo
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("game-container").style.display = "block";
+  atualizarStatus();
 }
 
+// Função que lida com os cliques nas células
 function clicarNaCelula(e) {
   const index = e.target.dataset.index;
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
@@ -52,6 +80,7 @@ function clicarNaCelula(e) {
   }
 }
 
+// Destacar as células que formaram a vitória
 function destacarVitoria() {
   const combinacao = combinacoesVitoria.find(comb =>
     comb.every(i => tabuleiro[i] === jogadorAtual)
@@ -64,20 +93,23 @@ function destacarVitoria() {
   }
 }
 
-
+// Atualizar o status do jogo (quem está jogando)
 function atualizarStatus() {
     statusText.textContent = `Vez de ${(jogadorAtual === "X") ? nomeX : nomeO}`;
 }
 
+// Função para verificar se houve vitória
 function verificarVitoria() {
     return combinacoesVitoria.some(comb => comb.every(i => tabuleiro[i] === jogadorAtual));
 }
 
+// Atualizar o placar
 function atualizarPlacar() {
     document.getElementById("placarX").textContent = `❌ ${placar.X}`;
     document.getElementById("placarO").textContent = `⭕ ${placar.O}`;
 }
 
+// Função para reiniciar o jogo
 function reiniciarJogo() {
     tabuleiro = ["", "", "", "", "", "", "", "", ""];
     jogadorAtual = "X";
@@ -87,12 +119,14 @@ function reiniciarJogo() {
     socket.emit("reset");
 }
 
+// Voltar ao menu
 function voltarAoMenu() {
     document.getElementById("game-container").style.display = "none";
     document.getElementById("start-screen").style.display = "flex";
     reiniciarJogo();
 }
 
+// Atualizar o jogo a partir de um movimento recebido do servidor
 socket.on("move", ({ index, jogador }) => {
   tabuleiro[index] = jogador;
   const cell = cells[index];
@@ -122,12 +156,10 @@ socket.on("move", ({ index, jogador }) => {
   }
 });
 
-
+// Resetar o jogo
 socket.on("reset", reiniciarJogo);
 
-cells.forEach(cell => {
-    cell.addEventListener("click", clicarNaCelula);
-});
+// Carregar o histórico de jogadores
 async function carregarHistorico() {
   const res = await fetch("/players");
   const nomes = await res.json();
@@ -136,46 +168,6 @@ async function carregarHistorico() {
 }
 
 window.addEventListener("load", carregarHistorico);
-
-async function salvarJogador(nome) {
-  await fetch("/add-player", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: nome })
-  });
-}
-
-async function startGame() {
-  nomeX = document.getElementById("nomeX").value.trim();
-  nomeO = document.getElementById("nomeO").value.trim();
-
-  if (!nomeX || !nomeO) {
-    alert("Ambos os jogadores precisam inserir seus nomes.");
-    return;
-  }
-
-  if (nomeX === nomeO) {
-    alert("Os nomes dos jogadores devem ser diferentes.");
-    return;
-  }
-
-  const resposta = await fetch("/verificar-nomes", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nomeX, nomeO })
-  });
-
-  const resultado = await resposta.json();
-
-  if (!resultado.ok) {
-    alert(resultado.mensagem);
-    return;
-  }
-
-  document.getElementById("start-screen").style.display = "none";
-  document.getElementById("game-container").style.display = "block";
-  atualizarStatus();
-}
 
 
 
