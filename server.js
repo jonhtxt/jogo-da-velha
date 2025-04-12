@@ -7,6 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const PORT = process.env.PORT || 3000;
+
 app.use(express.static('public'));
 app.use(express.json());
 
@@ -119,8 +121,8 @@ function resetarJogo() {
   io.emit('reset-jogo', tabuleiro);
 }
 
-server.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000');
+server.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
 
 
