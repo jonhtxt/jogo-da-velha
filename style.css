@@ -148,6 +148,35 @@ body.dark-mode footer a {
     transform: rotateY(180deg);
   }
 }
+#start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
+  background: linear-gradient(135deg, #7b2ff7, #f72585);
+  color: white;
+}
+
+#start-screen h1 {
+  font-size: 3rem;
+}
+
+#start-screen button {
+  padding: 10px 25px;
+  font-size: 1.2rem;
+  background-color: white;
+  color: #2a2a72;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#start-screen button:hover {
+  transform: scale(1.05);
+}
 
 
 

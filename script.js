@@ -88,6 +88,18 @@ const themeToggleButton = document.getElementById('theme-toggle');
 themeToggleButton.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
+function startGame() {
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("game-container").style.display = "block";
+}
+
+function mostrarInstrucoes() {
+  alert("O jogador que alinhar 3 símbolos iguais primeiro vence.");
+}
+
+function mostrarSobre() {
+  alert("Feito por Jonata. Um projeto com HTML, CSS e JavaScript.");
+}
 
 
 
