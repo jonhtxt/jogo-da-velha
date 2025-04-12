@@ -171,6 +171,21 @@ socket.on("reset", reiniciarJogo);
 cells.forEach(cell => {
     cell.addEventListener("click", clicarNaCelula);
 });
+const emojis = {
+  X: "😡", // Emoção de jogador X
+  O: "😊", // Emoção de jogador O
+};
+// Substituindo ❌ e ⭕ por emojis
+e.target.textContent = jogadorAtual === "X" ? emojis.X : emojis.O;
+function atualizarStatus() {
+  statusText.textContent = `Vez de ${(jogadorAtual === "X") ? nomeX : nomeO} ${(jogadorAtual === "X") ? emojis.X : emojis.O}`;
+}
+if (verificarVitoria()) {
+  statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu! 🎉 ${jogadorAtual === "X" ? emojis.X : emojis.O}`;
+}
+else if (!tabuleiro.includes("")) {
+  statusText.textContent = "Empate! 🤝";
+}
 
 
 
