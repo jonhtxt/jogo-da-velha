@@ -3,7 +3,7 @@ const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
 
 let jogadorAtual = "";
-let jogoAtivo = true;
+let jogoAtivo = false;
 let tabuleiro = ["", "", "", "", "", "", "", "", ""];
 let nomeX = "Jogador X";
 let nomeO = "Jogador O";
@@ -30,10 +30,12 @@ function startGame() {
 socket.on("atribuir-simbolo", (simbolo) => {
   jogadorAtual = simbolo;
   statusText.textContent = `Vez de ${simbolo === "X" ? nomeX : nomeO}`;
+  jogoAtivo = true;
 });
 
-socket.on('iniciar-partida', (estadoTabuleiro) => {
-  tabuleiro = estadoTabuleiro;
+socket.on('iniciar-partida', ({ tabuleiro, jogadorInicial }) => {
+  tabuleiro = tabuleiro;  // Atualiza o estado inicial do tabuleiro
+  statusText.textContent = `Vez de ${jogadorInicial === "X" ? nomeX : nomeO}`;
   atualizaTabuleiro();
 });
 
@@ -90,6 +92,7 @@ function verificarVitoria(jogador) {
     jogoAtivo = false;
   }
 }
+
 
 
 

@@ -63,11 +63,14 @@ io.on('connection', (socket) => {
     const jogador = jogadores.length === 0 ? 'X' : 'O';
     jogadores.push({ id: socket.id, simbolo: jogador });
     socket.emit('atribuir-simbolo', jogador);
-    
+
+    // Enviar o estado atual do tabuleiro
+    socket.emit('atualizar-tabuleiro', tabuleiro);
+
     // Iniciar a partida quando ambos os jogadores estiverem conectados
     if (jogadores.length === 2) {
       partidaAtiva = true;
-      io.emit('iniciar-partida', tabuleiro); // Enviar o estado inicial do jogo
+      io.emit('iniciar-partida', { tabuleiro, jogadorInicial: 'X' }); // Envia o estado inicial do jogo
     }
   }
 
@@ -119,6 +122,5 @@ function resetarJogo() {
 server.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
 });
-
 
 
