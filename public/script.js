@@ -77,30 +77,36 @@ function startGame() {
 
 function clicarNaCelula(e) {
   const index = e.target.dataset.index;
-  if (tabuleiro[index] !== "" || !jogoAtivo) return;
+  
+  // Impede que o jogador clique na célula se já estiver ocupada ou se o jogo não estiver ativo
+  if (tabuleiro[index] !== "" || !jogoAtivo || e.target.textContent !== "") return;
 
-  tabuleiro[index] = jogadorAtual;
-  e.target.textContent = jogadorAtual === "X" ? "❌" : "⭕";
-  e.target.classList.add("played");
-  clickSound.play();
+  // Verifica se é a vez do jogador atual antes de fazer o movimento
+  if (jogadorAtual === "X" && e.target.textContent !== "❌" && e.target.textContent !== "⭕") {
+    tabuleiro[index] = jogadorAtual;
+    e.target.textContent = jogadorAtual === "X" ? "❌" : "⭕";
+    e.target.classList.add("played");
+    clickSound.play();
 
-  socket.emit("move", { index, jogador: jogadorAtual });
+    socket.emit("move", { index, jogador: jogadorAtual });
 
-  if (verificarVitoria()) {
-    statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
-    placar[jogadorAtual]++;
-    atualizarPlacar();
-    jogoAtivo = false;
-
-    destacarVitoria();
-  } else if (!tabuleiro.includes("")) {
-    statusText.textContent = "Empate!";
-    jogoAtivo = false;
-  } else {
-    jogadorAtual = jogadorAtual === "X" ? "O" : "X";
-    atualizarStatus();
+    if (verificarVitoria()) {
+      statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
+      placar[jogadorAtual]++;
+      atualizarPlacar();
+      jogoAtivo = false;
+      destacarVitoria();
+    } else if (!tabuleiro.includes("")) {
+      statusText.textContent = "Empate!";
+      jogoAtivo = false;
+      empateSound.play?.();
+    } else {
+      jogadorAtual = jogadorAtual === "X" ? "O" : "X";
+      atualizarStatus();
+    }
   }
 }
+
 
 function destacarVitoria() {
   const combinacao = combinacoesVitoria.find(comb =>
