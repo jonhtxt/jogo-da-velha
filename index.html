@@ -4,67 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jogo da Velha</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Jogo da Velha 🎮</h1>
-    <p class="subtitulo">Clique em uma célula para jogar. Vença ou empate!</p>
-  </header>
 
-  <button id="theme-toggle">🌙 Alternar Tema</button>
-
-  <div id="placar">
-    <span>🏆 Vitórias X: <strong id="placar-x">0</strong></span>
-    <span>🏆 Vitórias O: <strong id="placar-o">0</strong></span>
+  <div id="start-screen">
+    <h1>Jogo da Velha</h1>
+    <button onclick="startGame()">Jogar</button>
+    <button onclick="mostrarInstrucoes()">Instruções</button>
+    <button onclick="mostrarSobre()">Sobre</button>
   </div>
 
-  <div id="status">Vez do jogador X</div>
-
-  <div class="board">
-    <div class="cell" data-index="0"></div>
-    <div class="cell" data-index="1"></div>
-    <div class="cell" data-index="2"></div>
-    <div class="cell" data-index="3"></div>
-    <div class="cell" data-index="4"></div>
-    <div class="cell" data-index="5"></div>
-    <div class="cell" data-index="6"></div>
-    <div class="cell" data-index="7"></div>
-    <div class="cell" data-index="8"></div>
+  <div id="game-container" style="display: none;">
+    <h1>Jogo da Velha</h1>
+    <div class="board">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <p id="status"></p>
+    <button onclick="reiniciarJogo()">Reiniciar</button>
   </div>
-
-  <button onclick="reiniciarJogo()">🔁 Reiniciar</button>
-
-  <footer>
-    <p>Feito por Jonata 👨‍💻 | <a href="https://github.com/jonhtxt/jogo-da-velha" target="_blank">Código no GitHub</a></p>
-  </footer>
 
   <script src="script.js"></script>
-</body><div id="start-screen">
-  <h1>Jogo da Velha</h1>
-  <button onclick="startGame()">Jogar</button>
-  <button onclick="mostrarInstrucoes()">Instruções</button>
-  <button onclick="mostrarSobre()">Sobre</button>
-</div>
-
-<div id="game-container" style="display: none;">
-  <h1>Jogo da Velha</h1>
-  <div class="board">
-    <div class="cell" data-index="0"></div>
-    <div class="cell" data-index="1"></div>
-    <div class="cell" data-index="2"></div>
-    <div class="cell" data-index="3"></div>
-    <div class="cell" data-index="4"></div>
-    <div class="cell" data-index="5"></div>
-    <div class="cell" data-index="6"></div>
-    <div class="cell" data-index="7"></div>
-    <div class="cell" data-index="8"></div>
-  </div>
-  <p id="status"></p>
-  <button onclick="reiniciarJogo()">Reiniciar</button>
-</div>
-
+</body>
 </html>
 
 

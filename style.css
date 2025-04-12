@@ -1,16 +1,15 @@
-/* Fonte personalizada */
 body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #7b2ff7, #f72585); /* Gradiente de cores */
+  margin: 0;
+  background-color: #f5f7fa;
   color: #333;
-  margin-top: 50px;
 }
-
 
 h1 {
   font-size: 2.5rem;
   color: #2a2a72;
+  margin-top: 20px;
 }
 
 .board {
@@ -32,12 +31,12 @@ h1 {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
+  transition: transform 0.3s, background-color 0.2s ease;
 }
 
 .cell:hover {
   background-color: #e0e7ff;
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 button {
@@ -48,12 +47,13 @@ button {
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+  margin: 10px;
 }
 
 button:hover {
   background-color: #4244a8;
+  transform: scale(1.05);
 }
 
 #status {
@@ -62,92 +62,7 @@ button:hover {
   color: #444;
 }
 
-/* 🌙 Estilo para o modo escuro */
-body.dark-mode {
-  background-color: #1a1a1a;
-  color: #f5f5f5;
-}
-
-body.dark-mode .cell {
-  background-color: #333;
-  border-color: #888;
-  color: #fff;
-}
-
-body.dark-mode button {
-  background-color: #444;
-  color: #fff;
-}
-.subtitulo {
-  margin-top: -10px;
-  color: #666;
-  font-size: 1rem;
-}
-
-#placar {
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  font-size: 1.1rem;
-}
-
-footer {
-  margin-top: 40px;
-  font-size: 0.9rem;
-  color: #777;
-}
-
-footer a {
-  color: #2a2a72;
-  text-decoration: none;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-body.dark-mode footer {
-  color: #aaa;
-}
-
-body.dark-mode footer a {
-  color: #7a9fff;
-}
-
-/* Animação ao clicar nas células */
-.cell {
-  width: 100px;
-  height: 100px;
-  background-color: #fff;
-  border: 2px solid #2a2a72;
-  font-size: 2.5rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.3s, background-color 0.2s ease;
-}
-
-.cell:hover {
-  background-color: #e0e7ff;
-  transform: scale(1.1);
-}
-
-/* Animação de flip */
-.cell.flipped {
-  animation: flip 0.5s ease forwards;
-}
-
-@keyframes flip {
-  0% {
-    transform: rotateY(0deg);
-  }
-  100% {
-    transform: rotateY(180deg);
-  }
-}
+/* Estilo da tela inicial */
 #start-screen {
   display: flex;
   flex-direction: column;
@@ -164,18 +79,18 @@ body.dark-mode footer a {
 }
 
 #start-screen button {
-  padding: 10px 25px;
-  font-size: 1.2rem;
   background-color: white;
   color: #2a2a72;
   border: none;
   border-radius: 8px;
+  padding: 10px 25px;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: transform 0.2s;
 }
 
 #start-screen button:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 
