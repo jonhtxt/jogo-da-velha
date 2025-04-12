@@ -2,7 +2,7 @@ body {
   font-family: 'Poppins', sans-serif;
   text-align: center;
   margin: 0;
-  background-color: #f5f7fa;
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc);
   color: #333;
 }
 
@@ -31,12 +31,12 @@ h1 {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.3s, background-color 0.2s ease;
+  transition: transform 0.2s, background-color 0.2s;
 }
 
 .cell:hover {
   background-color: #e0e7ff;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 button {
