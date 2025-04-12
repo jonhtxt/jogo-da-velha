@@ -78,6 +78,43 @@ body.dark-mode button {
   background-color: #444;
   color: #fff;
 }
+.subtitulo {
+  margin-top: -10px;
+  color: #666;
+  font-size: 1rem;
+}
+
+#placar {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.1rem;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+footer a {
+  color: #2a2a72;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+body.dark-mode footer {
+  color: #aaa;
+}
+
+body.dark-mode footer a {
+  color: #7a9fff;
+}
+
 
 
 

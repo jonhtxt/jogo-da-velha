@@ -8,9 +8,17 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Jogo da Velha</h1>
+  <header>
+    <h1>Jogo da Velha 🎮</h1>
+    <p class="subtitulo">Clique em uma célula para jogar. Vença ou empate!</p>
+  </header>
 
   <button id="theme-toggle">🌙 Alternar Tema</button>
+
+  <div id="placar">
+    <span>🏆 Vitórias X: <strong id="placar-x">0</strong></span>
+    <span>🏆 Vitórias O: <strong id="placar-o">0</strong></span>
+  </div>
 
   <div id="status">Vez do jogador X</div>
 
@@ -28,7 +36,12 @@
 
   <button onclick="reiniciarJogo()">🔁 Reiniciar</button>
 
+  <footer>
+    <p>Feito por Jonata 👨‍💻 | <a href="https://github.com/jonhtxt/jogo-da-velha" target="_blank">Código no GitHub</a></p>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
+
 
