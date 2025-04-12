@@ -1,4 +1,5 @@
-const socket = io(),
+// Conecte-se ao servidor de Socket.io
+const socket = io("https://jogo-da-velha-23l7.onrender.com");
       cells = document.querySelectorAll(".cell"),
       statusText = document.getElementById("status");
 
@@ -167,6 +168,35 @@ socket.on("atribuir-simbolo", simbolo => {
   console.log("Você é o jogador:", simbolo);
 });
 
+socket.on("atribuir-simbolo", (simbolo) => {
+  jogadorAtual = simbolo; // Defina o símbolo do jogador
+  atualizarStatus(); // Atualiza o status do jogo para o jogador
+});
+
+socket.on("sala-cheia", () => {
+  alert("A sala já está cheia, por favor, aguarde uma vaga.");
+});
+
+socket.on("jogador-entrou", (simbolo) => {
+  alert(`Um novo jogador entrou com o símbolo: ${simbolo}`);
+});
+
+socket.on("receber-jogada", ({ index, simbolo }) => {
+  // Realiza a jogada no cliente do outro jogador
+  tabuleiro[index] = simbolo;
+  const cell = document.querySelector(`[data-index="${index}"]`);
+  cell.textContent = simbolo === "X" ? "❌" : "⭕";
+  jogadorAtual = jogadorAtual === "X" ? "O" : "X"; // Troca o turno
+});
+
+socket.on("jogo-resetado", () => {
+  reiniciarJogo();
+});
+
+socket.on("jogador-desconectado", () => {
+  alert("O outro jogador desconectou. O jogo será reiniciado.");
+  reiniciarJogo();
+});
 
 
 
