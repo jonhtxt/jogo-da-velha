@@ -1,50 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jogo da Velha Online</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Tela de Início -->
-  <div id="start-screen">
-    <h1 class="title">🎮 Jogo da Velha Online</h1>
-    <input id="nomeX" placeholder="Nome do Jogador 1 (❌)" />
-    <input id="nomeO" placeholder="Nome do Jogador 2 (⭕)" />
-    <div class="buttons">
-      <button onclick="startGame()">Iniciar Jogo</button>
-      <button onclick="mostrarInstrucoes()">📘 Instruções</button>
-      <button onclick="mostrarSobre()">👨‍💻 Sobre</button>
-    </div>
-  </div>
 
-  <!-- Tela do Jogo -->
-  <div id="game-container" style="display:none;">
-    <div class="placar">
-      <span id="placarX">❌ 0</span>
-      <span id="placarO">⭕ 0</span>
-    </div>
+<div id="start-screen" class="start-screen">
+    <h1>Jogo da Velha</h1>
+    <input type="text" id="nomeX" placeholder="Nome do Jogador X" required>
+    <input type="text" id="nomeO" placeholder="Nome do Jogador O" required>
+    <button onclick="startGame()">Iniciar Jogo</button>
+
+    <h3>Jogadores Recentes:</h3>
+    <ul id="lista-jogadores"></ul>
+</div>
+
+<div id="game-container" class="game-container">
     <div id="status"></div>
-    <div class="grid">
-      <div class="cell" data-index="0"></div>
-      <div class="cell" data-index="1"></div>
-      <div class="cell" data-index="2"></div>
-      <div class="cell" data-index="3"></div>
-      <div class="cell" data-index="4"></div>
-      <div class="cell" data-index="5"></div>
-      <div class="cell" data-index="6"></div>
-      <div class="cell" data-index="7"></div>
-      <div class="cell" data-index="8"></div>
+    <div id="tabuleiro" class="tabuleiro">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
     </div>
-    <button onclick="reiniciarJogo()">Reiniciar</button>
-    <button onclick="voltarAoMenu()">Voltar</button>
-  </div>
+    <div id="placar">
+        <div id="placarX">❌ 0</div>
+        <div id="placarO">⭕ 0</div>
+    </div>
+    <button onclick="reiniciarJogo()">Reiniciar Jogo</button>
+    <button onclick="voltarAoMenu()">Voltar ao Menu</button>
+</div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
+
+
 
 
 

@@ -1,80 +1,62 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const fs = require('fs');
+const path = require('path');
 
-const PORT = process.env.PORT || 3000;
-
-app.use(express.static("public"));
-
-io.on("connection", (socket) => {
-  console.log("Um jogador se conectou!");
-
-  socket.on("move", (data) => {
-    socket.broadcast.emit("move", data);
-  });
-
-  socket.on("reset", () => {
-    socket.broadcast.emit("reset");
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Um jogador se desconectou.");
-  });
-});
-
-http.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
-const fs = require("fs");
-const path = require("path");
-
-const playersFile = path.join(__dirname, "players.json");
-
-// Rota para salvar novo jogador
-app.post("/add-player", express.json(), (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).send("Nome inválido");
-
-  fs.readFile(playersFile, "utf8", (err, data) => {
-    let players = [];
-    if (!err && data) {
-      try {
-        players = JSON.parse(data);
-      } catch {}
-    }
-    if (!players.includes(name)) {
-      players.push(name);
-      fs.writeFile(playersFile, JSON.stringify(players), () => {});
-    }
-    res.status(200).send("OK");
-  });
-});
-
-// Rota para pegar todos os jogadores
-app.get("/players", (req, res) => {
-  fs.readFile(playersFile, "utf8", (err, data) => {
-    if (err || !data) return res.json([]);
-    try {
-      res.json(JSON.parse(data));
-    } catch {
-      res.json([]);
-    }
-  });
-});
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.post("/verificar-nomes", (req, res) => {
-  const { nomeX, nomeO } = req.body;
+let usuariosJogadores = [];
 
-  // Verifica se algum dos nomes já foi usado
-  if (usuariosJogadores.includes(nomeX) || usuariosJogadores.includes(nomeO)) {
-    return res.json({ ok: false, mensagem: "Um dos nomes já foi utilizado. Tente outro nome." });
+// Carrega os jogadores salvos (se existirem)
+fs.readFile('players.json', (err, data) => {
+  if (!err) {
+    usuariosJogadores = JSON.parse(data);
   }
-
-  // Se os nomes não foram usados, a resposta será positiva
-  return res.json({ ok: true });
 });
+
+app.get('/players', (req, res) => {
+  res.json(usuariosJogadores);
+});
+
+app.post('/add-player', (req, res) => {
+  const { name } = req.body;
+  if (!usuariosJogadores.includes(name)) {
+    usuariosJogadores.push(name);
+    fs.writeFile('players.json', JSON.stringify(usuariosJogadores), err => {
+      if (err) {
+        return res.status(500).send('Erro ao salvar jogador');
+      }
+      res.status(200).send('Jogador salvo');
+    });
+  } else {
+    res.status(400).send('Nome já existe');
+  }
+});
+
+app.post('/verificar-nomes', (req, res) => {
+  const { nomeX, nomeO } = req.body;
+  if (usuariosJogadores.includes(nomeX) || usuariosJogadores.includes(nomeO)) {
+    return res.status(400).json({ ok: false, mensagem: "Um dos nomes já foi utilizado." });
+  }
+  res.json({ ok: true });
+});
+
+io.on('connection', socket => {
+  socket.on('move', ({ index, jogador }) => {
+    io.emit('move', { index, jogador });
+  });
+
+  socket.on('reset', () => {
+    io.emit('reset');
+  });
+});
+
+http.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+
 
 
