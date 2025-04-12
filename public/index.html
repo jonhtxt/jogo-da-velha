@@ -1,46 +1,52 @@
 <!doctype html>
-<html lang=pt-BR>
+<html lang="pt-BR">
+
 <head>
-<meta charset=UTF-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>Jogo da Velha Online</title>
-<link rel=stylesheet href=style.css>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo da Velha Online</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div id=start-screen>
-<h1 class=title>🎮 Jogo da Velha Online</h1>
-<input id=nomeX placeholder="Nome do Jogador 1 (❌)">
-<input id=nomeO placeholder="Nome do Jogador 2 (⭕)">
-<div class=buttons>
-<button onclick=startGame()>Iniciar Jogo</button>
-<button onclick=mostrarInstrucoes()>📘 Instruções</button>
-<button onclick=mostrarSobre()>👨‍💻 Sobre</button>
-</div>
-</div>
-<div id=game-container style=display:none>
-<div class=placar>
-<span id=placarX>❌ 0</span>
-<span id=placarO>⭕ 0</span>
-</div>
-<div id=status></div>
-<div class=grid>
-<div class=cell data-index=0></div>
-<div class=cell data-index=1></div>
-<div class=cell data-index=2></div>
-<div class=cell data-index=3></div>
-<div class=cell data-index=4></div>
-<div class=cell data-index=5></div>
-<div class=cell data-index=6></div>
-<div class=cell data-index=7></div>
-<div class=cell data-index=8></div>
-</div>
-<button onclick=reiniciarJogo()>Reiniciar</button>
-<button onclick=voltarAoMenu()>Voltar</button>
-</div>
-<script src=/socket.io/socket.io.js></script>
-<script src=script.js></script>
+  <div id="start-screen">
+    <h1 class="title">🎮 Jogo da Velha Online</h1>
+    <input id="nomeX" placeholder="Nome do Jogador 1 (❌)" aria-label="Nome do Jogador 1 (❌)">
+    <input id="nomeO" placeholder="Nome do Jogador 2 (⭕)" aria-label="Nome do Jogador 2 (⭕)">
+    <div class="buttons">
+      <button onclick="startGame()">Iniciar Jogo</button>
+      <button onclick="mostrarInstrucoes()">📘 Instruções</button>
+      <button onclick="mostrarSobre()">👨‍💻 Sobre</button>
+    </div>
+  </div>
+
+  <div id="game-container" style="display:none;">
+    <div class="placar">
+      <span id="placarX">❌ 0</span>
+      <span id="placarO">⭕ 0</span>
+    </div>
+    <div id="status"></div>
+    <div class="grid">
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <button onclick="reiniciarJogo()">Reiniciar</button>
+    <button onclick="voltarAoMenu()">Voltar</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
+
 
 
 
