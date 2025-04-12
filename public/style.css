@@ -22,6 +22,24 @@ body {
   margin: 20px auto;
 }
 
+.cell {
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  color: #000;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background .3s;
+}
+
+.cell:hover {
+  background: #ddd;
+}
+
 /* Estilos para as células do jogo */
 .cell {
   width: 100px;
@@ -49,51 +67,47 @@ body {
 
 /* Estilos para a tela inicial */
 #start-screen {
-  height: 100vh;
-  background: linear-gradient(135deg, #1e1e2f, #2f2f5e);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
-  color: #fff;
-  animation: fadeIn 1s ease-in;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e1e2f, #2f2f5e);
 }
 
-/* Estilo para o título na tela inicial */
 .title {
   font-size: 2.5rem;
-  text-shadow: 2px 2px #000;
+  color: white;
+  text-shadow: 2px 2px 5px #000;
   animation: pulse 2s infinite;
 }
 
-/* Estilos para os campos de input */
-#start-screen input {
+.input {
   padding: 10px;
   width: 250px;
   border-radius: 10px;
   border: none;
-  text-align: center;
   font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
-/* Estilos para os botões */
-.buttons button {
+button {
   padding: 10px 20px;
-  margin: .5rem;
+  margin: 0.5rem;
   border: none;
   border-radius: 8px;
   background-color: #ff4e50;
-  color: #fff;
+  color: white;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform .2s, background-color .3s;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
-.buttons button:hover {
+button:hover {
   transform: scale(1.05);
   background-color: #ff7678;
 }
+
 
 /* Animação para a tela inicial aparecer */
 @keyframes fadeIn {
