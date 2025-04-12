@@ -1,5 +1,5 @@
 // Som de clique
-const clickSound = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
+const clickSound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_b2bd4f274d.mp3');
 
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
@@ -18,10 +18,11 @@ cells.forEach(cell => {
 });
 
 function clicarNaCelula(e) {
-  clickSound.play(); // ✅ toca som no clique
-
+  console.log("clicou");
   const index = e.target.dataset.index;
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
+
+  clickSound.play();
 
   tabuleiro[index] = jogadorAtual;
   e.target.textContent = jogadorAtual;
@@ -37,6 +38,7 @@ function clicarNaCelula(e) {
     statusText.textContent = `Vez do jogador ${jogadorAtual}`;
   }
 }
+
 
 function verificarVitoria() {
   return combinacoesVitoria.some(combinacao => {
