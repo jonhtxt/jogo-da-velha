@@ -23,11 +23,16 @@ cells.forEach(cell => {
 
 function clicarNaCelula(e) {
   const index = e.target.dataset.index;
-  if (tabuleiro[index] !== "" || !jogoAtivo) return;
+  if (tabuleiro[index] !== "" || !jogoAtivo || jogadorAtual !== "X") return;
 
-  clickSound.play();
+  fazerJogada(index);
+  if (jogoAtivo) setTimeout(botJogar, 500); // Bot joga depois de 0.5s
+}
+
+function fazerJogada(index) {
   tabuleiro[index] = jogadorAtual;
-  e.target.textContent = jogadorAtual;
+  cells[index].textContent = jogadorAtual;
+  clickSound.play();
 
   if (verificarVitoria()) {
     statusText.textContent = `Jogador ${jogadorAtual} venceu!`;
@@ -40,6 +45,19 @@ function clicarNaCelula(e) {
     jogadorAtual = jogadorAtual === "X" ? "O" : "X";
     statusText.textContent = `Vez do jogador ${jogadorAtual}`;
   }
+}
+
+function botJogar() {
+  if (!jogoAtivo) return;
+
+  let jogadasDisponiveis = tabuleiro
+    .map((valor, i) => valor === "" ? i : null)
+    .filter(i => i !== null);
+
+  if (jogadasDisponiveis.length === 0) return;
+
+  let escolha = jogadasDisponiveis[Math.floor(Math.random() * jogadasDisponiveis.length)];
+  fazerJogada(escolha);
 }
 
 function verificarVitoria() {
@@ -70,4 +88,5 @@ const themeToggleButton = document.getElementById('theme-toggle');
 themeToggleButton.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
+
 
