@@ -2,9 +2,14 @@ const clickSound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_b2b
 
 const cells = document.querySelectorAll(".cell");
 const statusText = document.getElementById("status");
+const placarX = document.getElementById("placar-x");
+const placarO = document.getElementById("placar-o");
+
 let jogadorAtual = "X";
 let jogoAtivo = true;
 let tabuleiro = ["", "", "", "", "", "", "", "", ""];
+let vitoriasX = 0;
+let vitoriasO = 0;
 
 const combinacoesVitoria = [
   [0,1,2], [3,4,5], [6,7,8],
@@ -21,13 +26,13 @@ function clicarNaCelula(e) {
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
 
   clickSound.play();
-
   tabuleiro[index] = jogadorAtual;
   e.target.textContent = jogadorAtual;
 
   if (verificarVitoria()) {
     statusText.textContent = `Jogador ${jogadorAtual} venceu!`;
     jogoAtivo = false;
+    atualizarPlacar();
   } else if (!tabuleiro.includes("")) {
     statusText.textContent = "Empate!";
     jogoAtivo = false;
@@ -51,8 +56,18 @@ function reiniciarJogo() {
   cells.forEach(cell => (cell.textContent = ""));
 }
 
-// Botão de alternar tema
+function atualizarPlacar() {
+  if (jogadorAtual === "X") {
+    vitoriasX++;
+    placarX.textContent = vitoriasX;
+  } else {
+    vitoriasO++;
+    placarO.textContent = vitoriasO;
+  }
+}
+
 const themeToggleButton = document.getElementById('theme-toggle');
 themeToggleButton.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
 });
+
