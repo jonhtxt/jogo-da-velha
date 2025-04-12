@@ -8,11 +8,15 @@
 </head>
 <body>
   <div id="start-screen">
-    <h1>Jogo da Velha</h1>
-    <input type="text" id="nomeX" placeholder="Nome do Jogador X" />
-    <input type="text" id="nomeO" placeholder="Nome do Jogador O" />
-    <button onclick="startGame()">Começar</button>
-  </div>
+    <h1 class="title">🎮 Jogo da Velha Online</h1>
+    <input type="text" id="nomeX" placeholder="Nome do Jogador 1 (❌)">
+    <input type="text" id="nomeO" placeholder="Nome do Jogador 2 (⭕)">
+    <div class="buttons">
+      <button onclick="startGame()">Iniciar Jogo</button>
+      <button onclick="mostrarInstrucoes()">📘 Instruções</button>
+      <button onclick="mostrarSobre()">👨‍💻 Sobre</button>
+    </div>
+  </div>  
 
   <div id="game-container" style="display: none;">
     <div class="placar">
