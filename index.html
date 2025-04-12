@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Velha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-  </head>  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo da Velha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
   <h1>Jogo da Velha</h1>
-  <div class="board" id="board">
-    <!-- As 9 casas do tabuleiro -->
+
+  <button id="theme-toggle">🌙 Alternar Tema</button>
+
+  <div id="status">Vez do jogador X</div>
+
+  <div class="board">
     <div class="cell" data-index="0"></div>
     <div class="cell" data-index="1"></div>
     <div class="cell" data-index="2"></div>
@@ -21,10 +25,10 @@
     <div class="cell" data-index="7"></div>
     <div class="cell" data-index="8"></div>
   </div>
-  <p id="status"></p>
-  <button onclick="reiniciarJogo()">Reiniciar</button>
+
+  <button onclick="reiniciarJogo()">🔁 Reiniciar</button>
 
   <script src="script.js"></script>
 </body>
 </html>
-<button id="theme-toggle">Mudar Tema</button>
+

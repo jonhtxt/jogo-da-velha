@@ -1,4 +1,3 @@
-// Som de clique
 const clickSound = new Audio('https://cdn.pixabay.com/audio/2022/03/15/audio_b2bd4f274d.mp3');
 
 const cells = document.querySelectorAll(".cell");
@@ -18,7 +17,6 @@ cells.forEach(cell => {
 });
 
 function clicarNaCelula(e) {
-  console.log("clicou");
   const index = e.target.dataset.index;
   if (tabuleiro[index] !== "" || !jogoAtivo) return;
 
@@ -39,7 +37,6 @@ function clicarNaCelula(e) {
   }
 }
 
-
 function verificarVitoria() {
   return combinacoesVitoria.some(combinacao => {
     return combinacao.every(i => tabuleiro[i] === jogadorAtual);
@@ -50,11 +47,11 @@ function reiniciarJogo() {
   tabuleiro = ["", "", "", "", "", "", "", "", ""];
   jogadorAtual = "X";
   jogoAtivo = true;
-  statusText.textContent = "";
+  statusText.textContent = "Vez do jogador X";
   cells.forEach(cell => (cell.textContent = ""));
 }
 
-// Botão de tema escuro
+// Botão de alternar tema
 const themeToggleButton = document.getElementById('theme-toggle');
 themeToggleButton.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
