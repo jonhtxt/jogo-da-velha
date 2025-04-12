@@ -65,6 +65,10 @@ async function startGame() {
 function clicarNaCelula(e) {
   const index = e.target.dataset.index;
 
+  // Impede se:
+  // - a célula já está marcada
+  // - o jogo acabou
+  // - não é a vez deste jogador
   if (tabuleiro[index] !== "" || !jogoAtivo || jogadorAtual !== meuSimbolo) return;
 
   tabuleiro[index] = jogadorAtual;
@@ -73,22 +77,8 @@ function clicarNaCelula(e) {
   clickSound.play();
 
   socket.emit("move", { index, jogador: jogadorAtual });
-
-  if (verificarVitoria()) {
-    statusText.textContent = `${jogadorAtual === "X" ? nomeX : nomeO} venceu!`;
-    placar[jogadorAtual]++;
-    atualizarPlacar();
-    jogoAtivo = false;
-    destacarVitoria();
-  } else if (!tabuleiro.includes("")) {
-    statusText.textContent = "Empate!";
-    jogoAtivo = false;
-    empateSound.play();
-  } else {
-    jogadorAtual = jogadorAtual === "X" ? "O" : "X";
-    atualizarStatus();
-  }
 }
+
 
 function destacarVitoria() {
   const combinacao = combinacoesVitoria.find(comb =>
@@ -172,6 +162,10 @@ async function carregarHistorico() {
     console.error("Erro ao carregar histórico:", err);
   }
 }
+socket.on("atribuir-simbolo", simbolo => {
+  meuSimbolo = simbolo;
+  console.log("Você é o jogador:", simbolo);
+});
 
 
 
