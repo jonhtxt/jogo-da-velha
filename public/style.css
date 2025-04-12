@@ -15,7 +15,7 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
+  grid-template-columns: repeat(3, 100px); /* Define a grade 3x3 */
   grid-gap: 5px;
   justify-content: center;
   margin: 20px auto;
